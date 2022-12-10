@@ -62,6 +62,7 @@ The project is structured as follows:
 - `bin`: Contains the compiled classes of the project
 - `lib`: Contains the libraries of the project
 - `doc`: Contains the documentation of the project
+- `diagrams`: Contains the class diagrams of the project
 - `LICENSE`: Contains the license of the project
 - `README.md`: Contains the description of the project
 
