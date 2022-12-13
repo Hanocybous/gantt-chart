@@ -47,7 +47,7 @@ This project is a Gantt Chart application. The project is configured to use the 
 
 ### License
 
-This project is licensed under the Academic Free License version 3.0. See the [5212_5387_5388_GanttManager/LICENSE](LICENSE) file for details.
+This project is licensed under the Academic Free License version 3.0. See the [LICENSE](LICENSE) file for details.
 
 ### Supervisor
 
