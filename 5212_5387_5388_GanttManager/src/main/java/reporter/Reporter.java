@@ -3,6 +3,7 @@ package reporter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import domainClasses.Task;
 
 import backend.ReportType;
@@ -13,121 +14,92 @@ public class Reporter {
 	ArrayList<Task> tasks;
 	String [] columnNames = {"TaskId","TaskText","MamaId","Start","End","Cost"};
 	
-	public Reporter(String path, ArrayList<Task> tasks) {
+	public Reporter(String path, List<Task> tasks) {
 		this.path = path;
-		//this.type = type;
-		this.tasks = tasks;
+		this.tasks = (ArrayList<Task>) tasks;
 	}
 	
 	public int makeReportTXT() {
-		try {
-			path+=".txt";	
-		    FileWriter myWriter = new FileWriter(path);
-		    for (int i = 0; i < 6; i++) {
-		    	if (i == 5) {
-		    		myWriter.write(columnNames[i] + "\n");
-		    	}else {
-		    		myWriter.write(columnNames[i] + "\t");
-		    	}
-		    }
-		    for (Task task : tasks) {
-		    	String[] temp = task.stringTask();
-		    	for (int i = 0; i < 6; i++) {
-			    	if (i == 5) {
-			    		myWriter.write(temp[i] + "\n");
-			    	}else {
-			    		myWriter.write(temp[i] + "\t");
-			    	}
-			    }
-		    }
-		    myWriter.close();
-		    System.out.println("Successfully wrote to the file.");
+		try (FileWriter myWriter = new FileWriter(path)) {
+			for (int i = 0; i < 6; i++) {
+				if (i == 5) {
+					myWriter.write(columnNames[i] + "\t" + "\n");
+				}else {
+					myWriter.write(columnNames[i] + "\t");
+				}
+			}
+			for (Task task : tasks) {
+				myWriter.write(task.getId() + "\t");
+				myWriter.write(task.getName() + "\t");
+				myWriter.write(task.getMamaId() + "\t");
+				myWriter.write(task.getStart() + "\t");
+				myWriter.write(task.getEnd() + "\t");
+				myWriter.write(task.getCost() + "\t" + "\n");
+			}
+			myWriter.flush();
+			return 0;
 		} catch (IOException e) {
-		    System.out.println("An error occurred.");
-		    e.printStackTrace();
-		    return -1;
+			e.printStackTrace();
+			return 1;
 		}
-		return 1;
 	}
 	
 	public int makeReportHTML() {
-		try {
-			path+=".html";	
-		    FileWriter myWriter = new FileWriter(path);
-		    myWriter.write("<!doctype html>"+"\n"+"<html>"+"\n"+"<head>"+"\n");
-		    myWriter.write("<meta http-equiv=\"Content-Type\" content\"text/html; charsel=windows-1253\">"+"\n");
-		    myWriter.write("<title>Gantt Project Data</title>" + "\n");
-		    myWriter.write("</head>" + "\n" + "<body>" + "\n" + "\n" + "<table>" + "\n");
-	
-		    for (int i = 0; i < 6; i++) {
-		    	if (i == 5) {
-		    		myWriter.write("<td>" + columnNames[i] + "</td>" + "\t" + "</tr>" + "\n");
-		    	}else if (i == 0){
-		    		myWriter.write("<tr>" + "\n" + "<td>" + "\t" + columnNames[i] + "</td>" + "\t");
-		    	}else {
-		    		myWriter.write("<td>" + columnNames[i] + "</td>" + "\t");
-		    	}
-		    }
-		    for (Task task: tasks) {
-		    	String[] temp = task.stringTask();
-		    	for(int i = 0; i < temp.length; i++)
-			    	if (i == temp.length-1) {
-			    		myWriter.write("<td>" + temp[i] + "</td>" + "\t" + "</tr>" + "\n");
-			    	}else if (i == 0){
-			    		myWriter.write("<tr>" + "\n" + "<td>" + "\t" + temp[i] + "</td>" + "\t");
-			    	}else {
-			    		myWriter.write("<td>" + temp[i] + "</td>" + "\t");
-			    	}
-		    }
-		    myWriter.write("<body>" + "\n" + "<html>");
-		    myWriter.close();
-		    System.out.println("Successfully wrote to the file.");
+		try (FileWriter myWriter = new FileWriter(path)) {
+			myWriter.write("<html>" + "\n");
+			myWriter.write("<head>" + "\n");
+			myWriter.write("<title>Report</title>" + "\n");
+			myWriter.write("</head>" + "\n");
+			myWriter.write("<body>" + "\n");
+			myWriter.write("<table border=\"1\">" + "\n");
+			myWriter.write("<tr>" + "\n");
+			for (int i = 0; i < 6; i++) {
+				myWriter.write("<th>" + columnNames[i] + "</th>" + "\n");
+			}
+			myWriter.write("</tr>" + "\n");
+			for (Task task : tasks) {
+				myWriter.write("<tr>" + "\n");
+				myWriter.write("<td>" + task.getId() + "</td>" + "\n");
+				myWriter.write("<td>" + task.getName() + "</td>" + "\n");
+				myWriter.write("<td>" + task.getMamaId() + "</td>" + "\n");
+				myWriter.write("<td>" + task.getStart() + "</td>" + "\n");
+				myWriter.write("<td>" + task.getEnd() + "</td>" + "\n");
+				myWriter.write("<td>" + task.getCost() + "</td>" + "\n");
+				myWriter.write("</tr>" + "\n");
+			}
+			myWriter.write("</table>" + "\n");
+			myWriter.write("</body>" + "\n");
+			myWriter.write("</html>" + "\n");
+			myWriter.flush();
+			return 0;
 		} catch (IOException e) {
-		    System.out.println("An error occurred.");
-		    e.printStackTrace();
-		    return -1;
+			e.printStackTrace();
+			return 1;
 		}
-		return 1;
-		
 	}
 	
 	public int makeReportMD() {
-		try {
-			path+=".md";	
-		    FileWriter myWriter = new FileWriter(path);
-	
-		    for (int i = 0; i < 6; i++) {
-		    	if (i == 5) {
-		    		myWriter.write("*" + columnNames[i] + "*" + " " + "\n");
-		    	}else {
-		    		myWriter.write("*" + columnNames[i] + "*" + " ");
-		    	}
-		    }
-		    for (Task task: tasks) {
-		    	String[] temp = task.stringTask();
-		    	if (task.getMamaId() == 0) {
-		    		for(int i = 0; i < temp.length; i++)
-				    	if (i == temp.length-1) {
-				    		myWriter.write("**" + temp[i] + "**" + " " + "\n");
-				    	}else {
-				    		myWriter.write("**" + temp[i] + "**" + " ");
-				    	}
-		    	}else {
-			    	for(int i = 0; i < temp.length; i++)
-				    	if (i == temp.length-1) {
-				    		myWriter.write(temp[i] + " " + "\n");
-				    	}else {
-				    		myWriter.write(temp[i] + " ");
-				    	}
-		    	}
-		    }
-		    myWriter.close();
-		    System.out.println("Successfully wrote to the file.");
+		try (FileWriter myWriter = new FileWriter(path)) {
+			for (int i = 0; i < 6; i++) {
+				if (i == 5) {
+					myWriter.write(columnNames[i] + "\t" + "\n");
+				}else {
+					myWriter.write(columnNames[i] + "\t");
+				}
+			}
+			for (Task task : tasks) {
+				myWriter.write(task.getId() + "\t");
+				myWriter.write(task.getName() + "\t");
+				myWriter.write(task.getMamaId() + "\t");
+				myWriter.write(task.getStart() + "\t");
+				myWriter.write(task.getEnd() + "\t");
+				myWriter.write(task.getCost() + "\t" + "\n");
+			}
+			myWriter.flush();
+			return 0;
 		} catch (IOException e) {
-		    System.out.println("An error occurred.");
-		    e.printStackTrace();
-		    return -1;
+			e.printStackTrace();
+			return 1;
 		}
-		return 1;
 	}
 }

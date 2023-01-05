@@ -10,7 +10,7 @@ import reporter.Reporter;
 
 public class TaskManager implements IMainController{
 	String [] columnNames = {"TaskId","TaskText","MamaId","Start","End","Cost"};
-	List<String[]> cdata = new ArrayList<String[]>();
+	List<String[]> cdata = new ArrayList<>();
 	
 	ArrayList<Task> tasks;
 	FileManager taskCreator;
@@ -23,7 +23,7 @@ public class TaskManager implements IMainController{
 	public SimpleTableModel load(String fileName, String delimiter) {
 		
 		taskCreator = new FileManager(fileName,delimiter);
-		tasks = taskCreator.giveTasks();
+		tasks = (ArrayList<Task>) taskCreator.giveTasks();
 		
 		Comparator<Task> comparator = (o1, o2) -> {
 		    // Compare the two objects based on their id, if they have the same id, compare their start
@@ -48,7 +48,7 @@ public class TaskManager implements IMainController{
 	}
 	
 	public SimpleTableModel getTasksByPrefix(String prefix) {
-		List<String[]> prefixData = new ArrayList<String[]>();
+		List<String[]> prefixData = new ArrayList<>();
 		for(Task checkingTask : tasks) {
 			if (checkingTask.getName().startsWith(prefix)) {
 				prefixData.add(checkingTask.stringTask());
@@ -69,7 +69,7 @@ public class TaskManager implements IMainController{
 	}
 	
 	public SimpleTableModel getTopLevelTasks() {
-		List<String[]> topLevelData = new ArrayList<String[]>();
+		List<String[]> topLevelData = new ArrayList<>();
 		for (Task topLevelTask : tasks) {
 			if (topLevelTask.getMamaId() == 0) {
 				topLevelData.add(topLevelTask.stringTask());
@@ -79,17 +79,22 @@ public class TaskManager implements IMainController{
 	}
 	
 	public int createReport(String path, ReportType type) {
-		System.out.println(type);
-		int returnInt = 0;
 		taskSaver = new Reporter(path, tasks);
-		if (type.TEXT != null) {
-			returnInt = taskSaver.makeReportTXT();
-		}else if(type.HTML != null) {
-			returnInt = taskSaver.makeReportHTML();
-		}else if (type.MD != null){
-			returnInt = taskSaver.makeReportMD();
+		if (type == ReportType.HTML) {
+			taskSaver.makeReportHTML();
+			return 0;
 		}
-		return 1;
+		else if (type == ReportType.TEXT) {
+			taskSaver.makeReportTXT();
+			return 0;
+		}
+		else if (type == ReportType.MD) {
+			taskSaver.makeReportMD();
+			return 0;
+		}
+		else {
+			return 1;
+		}
 	}
 
 }

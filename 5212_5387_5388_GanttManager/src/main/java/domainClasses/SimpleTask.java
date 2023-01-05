@@ -6,6 +6,6 @@ public final class SimpleTask extends Task{
 		super(id,name,mamaId,start,end,d);
 	}
 	
-	public void addSubTask(Task subTask) {}
+	public void addSubTask(Task subTask) { /*Simple Tasks can't have subtasks*/ }
 
 }

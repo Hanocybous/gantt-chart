@@ -61,16 +61,20 @@ public class SimpleTableModel extends AbstractTableModel {
 	}
 	
 	public String toString() {
-		String result = this.name + "\tfor\t" + this.prjName + "\n";
-		for(String s: this.columnNames)
-			result += s.toString() + "\t";
-		result +="\n";
-		for(String[] ss: this.data) {
-			for(String s: ss)
-				result += s.toString() + "\t";
-			result +="\n";
+		StringBuilder sb = new StringBuilder();
+		sb.append("SimpleTableModel: name=" + this.name + ", prjName=" + this.prjName + ", columnNames=");
+		for (String s : this.columnNames) {
+			sb.append(s + ", ");
 		}
-		return result;
+		sb.append("data=");
+		for (String[] s : this.data) {
+			sb.append("[");
+			for (String s2 : s) {
+				sb.append(s2 + ", ");
+			}
+			sb.append("], ");
+		}
+		return sb.toString();
 	}
 }//end class
 

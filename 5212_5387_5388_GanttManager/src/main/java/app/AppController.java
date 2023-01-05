@@ -17,23 +17,19 @@ public final class AppController {
 	}
 	
 	public SimpleTableModel load(String fileName, String delimiter) {
-		SimpleTableModel tableModel = mainEngine.load(fileName, delimiter);
-		return tableModel;
+		return mainEngine.load(fileName, delimiter);
 	}//end load()
 
 	public SimpleTableModel getByPrefix(String prefix) {
-		SimpleTableModel tableModel = mainEngine.getTasksByPrefix(prefix);
-		return tableModel;
+		return mainEngine.getTasksByPrefix(prefix);
 	}//end byPrefix()
 
 	public SimpleTableModel getById(int id) {
-		SimpleTableModel tableModel = mainEngine.getTaskById(id);
-		return tableModel;
+		return mainEngine.getTaskById(id);
 	}//end byId()
 	
 	public SimpleTableModel getTopLevel() {
-		SimpleTableModel tableModel = mainEngine.getTopLevelTasks();
-		return tableModel;
+		return mainEngine.getTopLevelTasks();
 	}//end topLevel()
 	
 	public int createReportText(String path) {

@@ -1,6 +1,6 @@
 package domainClasses;
 
-public abstract sealed class Task permits SimpleTask,ComplexTask {
+public abstract class Task{
 	private int id; 
 	private String name;
 	private int mamaId;
