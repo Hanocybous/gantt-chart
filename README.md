@@ -1,5 +1,5 @@
-This file is part of the Software Development Course in the Faculty of Computer Science and Engineering, Ioannina, Greece.
-It is licensed under the Academic Free License version 3.0.
+This file is part of the Software Development Course in the Faculty of Computer Science and Engineering, Ioannina, Greece.__
+It is licensed under the Academic Free License version 3.0.__
 Copyright (C) 2022-2023, University of Ioannina.
 
 # Software Development Course
