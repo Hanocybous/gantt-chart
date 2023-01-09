@@ -41,8 +41,8 @@ This project is a Gantt Chart application. The project is configured to use the 
 ### Who do I talk to?
 
 - [Charilaos Chatzidimitriou](mailto: cs05387@uoi.gr)
-- [Omiros Chatziiordanis](mailto: cs05388@uoi.gr)
-- [Georgios Dimoudis](mailto: cs05212@uoi.gr)
+- [Omiros Chatziiordanis](mailto: cs05388@uoi.gr) (ver 1.0.0)
+- [Georgios Dimoudis](mailto: cs05212@uoi.gr) (ver 1.0.0)
 
 ### License
 
