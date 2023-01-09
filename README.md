@@ -8,7 +8,7 @@ This repository contains the source code of the Software Development Course in t
 
 ## What is this repository for?
 
-This project is a Gantt Chart application. The project is configured to use the [JavaFX](https://openjfx.io/) library for the GUI. The project is also configured to use the [JUnit](https://junit.org/junit5/) library for unit testing.
+This project is a Gantt Chart application. The project is configured to use the Java Swing library for the GUI. The project is also configured to use the [JUnit](https://junit.org/junit5/) library for unit testing.
 
 ### Prerequisites
 
