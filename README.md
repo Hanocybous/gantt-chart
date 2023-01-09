@@ -12,7 +12,7 @@ This project is a Gantt Chart application. The project is configured to use the 
 
 ### Prerequisites
 
-- [Java-SE 1.8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
+- [Java Swing](https://docs.oracle.com/javase/8/docs/api/javax/swing/package-summary.html)
 - [JavaFX 11](https://gluonhq.com/products/javafx/)
 - [JUnit 4](https://junit.org/junit4/)
 

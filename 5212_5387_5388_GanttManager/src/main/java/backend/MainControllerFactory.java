@@ -3,7 +3,7 @@ package backend;
 public class MainControllerFactory {
 
 	public IMainController createMainController() {
-		return new TaskManager();
+		return TaskManager.getInstance();
 	}
 
 }

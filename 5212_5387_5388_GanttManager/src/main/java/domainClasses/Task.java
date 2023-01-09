@@ -1,4 +1,4 @@
-package domainClasses;
+package domainclasses;
 
 public abstract class Task{
 	private int id; 
@@ -68,12 +68,7 @@ public abstract class Task{
 	public abstract void addSubTask(Task subTask);
 	
 	public String[] stringTask() {
-		String[] taskData = {String.valueOf(id),
-				name,
-				String.valueOf(mamaId),
-				String.valueOf(start),
-				String.valueOf(end),
-				String.valueOf(cost) };
-		return taskData;
+		return new String[] {Integer.toString(id),name,Integer.toString(mamaId),Integer.toString(start),Integer.toString(end),Double.toString(cost)};
 	}
+
 }

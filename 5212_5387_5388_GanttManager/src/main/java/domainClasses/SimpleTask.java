@@ -1,4 +1,4 @@
-package domainClasses;
+package domainclasses;
 
 public final class SimpleTask extends Task{
 	

@@ -99,6 +99,10 @@ public class JFrameLevel00RootFrame extends JFrame {
 		csvMenu.add(miLoadTsv);
 		this.addLoadTsvActionListener(miLoadTsv);
 
+		JMenuItem miLoadCsv = new JMenuItem("Load CSV");
+		csvMenu.add(miLoadCsv);
+		this.addLoadCsvActionListener(miLoadCsv);
+		
 		JMenuItem miExit = new JMenuItem("Exit");
 		csvMenu.add(miExit);
 		miExit.addActionListener(
@@ -131,24 +135,49 @@ public class JFrameLevel00RootFrame extends JFrame {
 		JMenu reporterMenu = new JMenu("Report");
 		menubar.add(reporterMenu);
 
-		JMenuItem miReportTxt = new JMenuItem("Report txt");
+		JMenuItem miReportTxt = new JMenuItem("Report TXT");
 		reporterMenu.add(miReportTxt);
 		this.addReportTxtActionListener(miReportTxt);
 
-		JMenuItem miReportMd = new JMenuItem("Report md");
+		JMenuItem miReportMd = new JMenuItem("Report Markdown");
 		reporterMenu.add(miReportMd);
 		this.addReportMdActionListener(miReportMd);
 
-		JMenuItem miReportHtml = new JMenuItem("Report html");
+		JMenuItem miReportHtml = new JMenuItem("Report HTML");
 		reporterMenu.add(miReportHtml);
 		this.addReportHtmlActionListener(miReportHtml);
 
 	}// end constructor
 
-	private void addLoadTsvActionListener(JMenuItem miLoadCsv) {
+	private void addLoadCsvActionListener(JMenuItem miLoadCsv) {
+		// Make an action listener for the menu item to load a csv file
 		miLoadCsv.addActionListener(event -> {
 			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 			jfc.setDialogTitle("Select a csv file");
+			jfc.setAcceptAllFileFilterUsed(false);
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV files", "csv");
+			jfc.addChoosableFileFilter(filter);
+
+			// To add *.* as a possible filter
+			jfc.setAcceptAllFileFilterUsed(true);
+
+			int returnValue = jfc.showOpenDialog(null);
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				String pathString = jfc.getSelectedFile().getPath();
+				System.out.println("### " + pathString);
+
+				SimpleTableModel tblModel = appController.load(pathString, ",");
+				showFrameWithTable(tblModel, pathString);
+				SimpleRasterModel raster = appController.translateTableModelToRaster(tblModel);
+				showFrameWithRaster(raster, pathString);
+			}
+		});
+	}
+
+	private void addLoadTsvActionListener(JMenuItem miLoadCsv) {
+		miLoadCsv.addActionListener(event -> {
+			JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+			jfc.setDialogTitle("Select a tsv file");
 			jfc.setAcceptAllFileFilterUsed(false);
 			FileNameExtensionFilter filter = new FileNameExtensionFilter("TSV files", "tsv");
 			jfc.addChoosableFileFilter(filter);

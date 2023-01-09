@@ -4,22 +4,28 @@ import java.util.Comparator;
 import java.util.List;
 
 import dom2app.SimpleTableModel;
-import domainClasses.*;
-import fileManager.FileManager;
-import reporter.Reporter;
+import domainclasses.*;
+import parser.FileManager;
+import reporter.IReporter;
+import reporter.ReporterFactory;
 
-public class TaskManager implements IMainController{
-	String [] columnNames = {"TaskId","TaskText","MamaId","Start","End","Cost"};
-	List<String[]> cdata = new ArrayList<>();
+class TaskManager implements IMainController {
+
+	private static final String [] columnNames = {"TaskId","TaskText","MamaId","Start","End","Cost"};
+	private static TaskManager instance = null;
+
+	private ArrayList<Task> tasks;
+	private FileManager taskCreator;
 	
-	ArrayList<Task> tasks;
-	FileManager taskCreator;
-	Reporter taskSaver;
+	private TaskManager() { }
 	
-	public TaskManager() {
-		tasks = new ArrayList<>();
+	public static TaskManager getInstance() {
+		if (instance == null) {
+			instance = new TaskManager();
+		}
+		return instance;
 	}
-	
+
 	public SimpleTableModel load(String fileName, String delimiter) {
 		
 		taskCreator = new FileManager(fileName,delimiter);
@@ -79,22 +85,8 @@ public class TaskManager implements IMainController{
 	}
 	
 	public int createReport(String path, ReportType type) {
-		taskSaver = new Reporter(path, tasks);
-		if (type == ReportType.HTML) {
-			taskSaver.makeReportHTML();
-			return 0;
-		}
-		else if (type == ReportType.TEXT) {
-			taskSaver.makeReportTXT();
-			return 0;
-		}
-		else if (type == ReportType.MD) {
-			taskSaver.makeReportMD();
-			return 0;
-		}
-		else {
-			return 1;
-		}
+		IReporter reporter = ReporterFactory.getReporter(path, tasks, type);
+		return reporter.createReport();
 	}
 
 }

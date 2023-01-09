@@ -4,21 +4,29 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import domainClasses.Task;
 
 import backend.ReportType;
+import domainclasses.Task;
 
-public class Reporter {
-	String path;
-	ReportType type;
-	ArrayList<Task> tasks;
-	String [] columnNames = {"TaskId","TaskText","MamaId","Start","End","Cost"};
+class Reporter implements IReporter {
+
+	private String path;
+	private ReportType type;
+	private ArrayList<Task> tasks;
+	private static final String [] columnNames = {"TaskId","TaskText","MamaId","Start","End","Cost"};
 	
 	public Reporter(String path, List<Task> tasks) {
 		this.path = path;
 		this.tasks = (ArrayList<Task>) tasks;
 	}
 	
+	public Reporter(String path, List<Task> tasks, ReportType type) {
+		this.path = path;
+		this.tasks = (ArrayList<Task>) tasks;
+		this.type = type;
+	}
+	
+	@Override
 	public int makeReportTXT() {
 		try (FileWriter myWriter = new FileWriter(path)) {
 			for (int i = 0; i < 6; i++) {
@@ -44,6 +52,7 @@ public class Reporter {
 		}
 	}
 	
+	@Override
 	public int makeReportHTML() {
 		try (FileWriter myWriter = new FileWriter(path)) {
 			myWriter.write("<html>" + "\n");
@@ -78,6 +87,7 @@ public class Reporter {
 		}
 	}
 	
+	@Override
 	public int makeReportMD() {
 		try (FileWriter myWriter = new FileWriter(path)) {
 			for (int i = 0; i < 6; i++) {
@@ -99,6 +109,20 @@ public class Reporter {
 			return 0;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return 1;
+		}
+	}
+
+	@Override
+	public int createReport() {
+		switch (type) {
+		case TEXT:
+			return makeReportTXT();
+		case HTML:
+			return makeReportHTML();
+		case MD:
+			return makeReportMD();
+		default:
 			return 1;
 		}
 	}
