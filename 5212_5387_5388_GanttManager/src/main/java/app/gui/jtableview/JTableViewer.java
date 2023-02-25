@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-//import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -13,15 +12,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 
 import app.SimpleRasterModel;
-import dom2app.SimpleTableModel;
+import domtoapp.SimpleTableModel;
 
 
-/**
+/*
  * Shamelessly stolen from
  * https://stackoverflow.com/questions/22864095/reading-data-from-a-specific-csv-file-and-displaying-it-in-a-jtable
  * 
- * TODO Check out again
- * https://docs.oracle.com/javase/tutorial/uiswing/components/table.html
  */
 
 public class JTableViewer extends JPanel {
@@ -39,16 +36,11 @@ public class JTableViewer extends JPanel {
 
 		public JTableViewer(SimpleTableModel tableModel) {
 	    	super(new BorderLayout(3, 3));	        
-	        System.out.println("Rows: " + tableModel.getRowCount());
-	        System.out.println("Cols: " + tableModel.getColumnCount());
 	        this.table = new JTable(tableModel);
 	    }//end constructor
 	
 		public JTableViewer(SimpleRasterModel rasterModel) {
 	    	super(new BorderLayout(3, 3));	        
-	        System.out.println("Rows: " + rasterModel.getRowCount());
-	        System.out.println("Cols: " + rasterModel.getColumnCount());
-	        //this.table = new JTable(rasterModel);
 	        
 	        this.table = new JTable(rasterModel){
 	            /**
@@ -66,12 +58,6 @@ public class JTableViewer extends JPanel {
 	                	comp.setForeground(Color.black);
 	                }
 	                else {
-	                //System.out.println("XXXX "+value);
-//	                String value = (String) getModel().getValueAt(row, col);
-	                //if (getSelectedRow() == row) 
-	                
-//	                for(int i=0; i<rasterModel.getRowCount();i++)
-//	                	for(int j=0; j<rasterModel.getColumnCount();j++){
 	                    if (value.equals("**")) {
 	                        comp.setBackground(darkGreen);
 	                        comp.setForeground(darkGreen);
@@ -83,9 +69,6 @@ public class JTableViewer extends JPanel {
 	                        comp.setForeground(Color.black);
 	                    }
 	                }
-	                //} //else {
-	                    //comp.setBackground(Color.white);
-	                //}
 	                return comp;
 	            }
 	        };
@@ -106,17 +89,6 @@ public class JTableViewer extends JPanel {
 	        
 	        // add a nice border
 	        setBorder(new EmptyBorder(5, 5, 5, 5));
-	    	
-//	        //WHEN RUN INDIVIDUALLY, UNCOMMENT THIS
-//	    	// Create and set up the window.
-//	        JFrame frame = new JFrame("JTable for the data");
-//	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//
-//	        // Create and set up the content pane.
-//	        frame.setContentPane(this);
-//	        
-//	        // Display the window.
-//	        frame.pack();
-//	        frame.setVisible(true);
+
 	    }
 }

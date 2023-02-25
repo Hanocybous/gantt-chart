@@ -3,8 +3,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import dom2app.SimpleTableModel;
 import domainclasses.*;
+import domtoapp.SimpleTableModel;
 import parser.FileManager;
 import reporter.IReporter;
 import reporter.ReporterFactory;
@@ -14,8 +14,7 @@ class TaskManager implements IMainController {
 	private static final String [] columnNames = {"TaskId","TaskText","MamaId","Start","End","Cost"};
 	private static TaskManager instance = null;
 
-	private ArrayList<Task> tasks;
-	private FileManager taskCreator;
+	private ArrayList<Task> tasks;	
 	
 	private TaskManager() { }
 	
@@ -28,7 +27,7 @@ class TaskManager implements IMainController {
 
 	public SimpleTableModel load(String fileName, String delimiter) {
 		
-		taskCreator = new FileManager(fileName,delimiter);
+		FileManager taskCreator = new FileManager(fileName,delimiter);
 		tasks = (ArrayList<Task>) taskCreator.giveTasks();
 		
 		Comparator<Task> comparator = (o1, o2) -> {
@@ -88,5 +87,113 @@ class TaskManager implements IMainController {
 		IReporter reporter = ReporterFactory.getReporter(path, tasks, type);
 		return reporter.createReport();
 	}
+
+	public void deleteTask(int selectedId) {
+		for (Task task : tasks) {
+			if (task.getId() == selectedId) {
+				tasks.remove(task);
+				break;
+			}
+		}
+	}
+
+	public void updateTask(int selectedId, int choice, String newValue) {
+		for (Task task : tasks) {
+			if (task.getId() == selectedId) {
+				switch (choice) {
+				case 0:
+					task.setTaskId(Integer.parseInt(newValue));
+					break;
+				case 1:
+					task.setTaskDescription(newValue);
+					break;
+				case 2:
+					task.setMamaId(Integer.parseInt(newValue));
+					break;
+				case 3:
+					task.setStart(Integer.parseInt(newValue));
+					break;
+				case 4:
+					task.setEnd(Integer.parseInt(newValue));
+					break;
+				case 5:
+					task.setCost((double) Integer.parseInt(newValue));
+					break;
+				}
+				break;
+			}
+		}
+	}
+
+	public SimpleTableModel getTaskList() {
+		List<String[]> taskList = new ArrayList<>();
+		for (Task task : tasks) {
+			taskList.add(task.stringTask());
+		}
+		return new SimpleTableModel("TaskList","TaskList", columnNames,taskList);
+	}
+
+	public void addTask(String taskText, int mamaId, String startDateString, String endDateString, double cost) {
+		int id = tasks.get(tasks.size()-1).getId() + 1;
+		int start = Integer.parseInt(startDateString);
+		int end = Integer.parseInt(endDateString);
+		Task newTask = new SimpleTask(id, taskText, mamaId, start, end, cost);
+		tasks.add(newTask);
+	}
+
+	public void addTask(String taskText, int mamaId, String startDateString, String endDateString, double cost, int taskId) {
+		int start = Integer.parseInt(startDateString);
+		int end = Integer.parseInt(endDateString);
+		Task newTask = new SimpleTask(taskId, taskText, mamaId, start, end, cost);
+		tasks.add(newTask);
+	}
+
+	@Override
+	public String[] getTaskData(int selectedId) {
+		String[] taskData = new String[5];
+		for (Task task : tasks) {
+			if (task.getId() == selectedId) {  
+				taskData[0] = task.getName();
+				taskData[1] = Integer.toString(task.getStart());
+				taskData[2] = Integer.toString(task.getEnd());
+				taskData[3] = Double.toString(task.getCost());
+				taskData[4] = Integer.toString(task.getId());
+				return taskData;
+			}
+			// if the selected id is a mama task, return the data of it
+			if (task.getId() == selectedId && task.getMamaId() == 0) {
+				return new String[0];
+			}
+		}
+		return new String[0];
+	}
+
+	@Override
+	public void updateMamaTask(int mamaId, String mamaStartDateString, String mamaEndDateString, Double mamaCost) {
+		int mamaStartDate = Integer.parseInt(mamaStartDateString);
+		int mamaEndDate = Integer.parseInt(mamaEndDateString);
+		for (Task task : tasks) {
+			if (task.getId() == mamaId) {
+				task.setStart(mamaStartDate);
+				task.setEnd(mamaEndDate);
+				task.setCost(mamaCost);
+				break;
+			}
+		}
+	}
+
+	@Override
+	public void deleteSubTasks(int selectedId) {
+		List<Task> subTasks = new ArrayList<>();
+		for (Task task : tasks) {
+			if (task.getMamaId() == selectedId) {
+				subTasks.add(task);
+			}
+		}
+		for (Task subTask : subTasks) {
+			tasks.remove(subTask);
+		}
+	}
+
 
 }

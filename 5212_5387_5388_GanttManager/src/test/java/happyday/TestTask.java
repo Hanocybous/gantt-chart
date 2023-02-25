@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import domainClasses.ComplexTask;
-import domainClasses.SimpleTask;
-import domainClasses.Task;
+import domainclasses.ComplexTask;
+import domainclasses.SimpleTask;
+import domainclasses.Task;
 
 public class TestTask {
 

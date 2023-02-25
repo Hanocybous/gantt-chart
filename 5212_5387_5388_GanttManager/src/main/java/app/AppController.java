@@ -1,12 +1,11 @@
 package app;
 
-
 import java.util.List;
 import java.util.ArrayList;
 import backend.IMainController;
 import backend.MainControllerFactory;
 import backend.ReportType;
-import dom2app.SimpleTableModel;
+import domtoapp.SimpleTableModel;
 
 public final class AppController {
 	private static IMainController mainEngine;
@@ -48,8 +47,8 @@ public final class AppController {
 		int end = Integer.MIN_VALUE;
 		int start = Integer.MAX_VALUE;
 		for (String[] ss: inputData) {
-			int localStart = Integer.valueOf(ss[3].trim());
-			int localEnd = Integer.valueOf(ss[4].trim());
+			int localStart = Integer.parseInt(ss[3].trim());
+			int localEnd = Integer.parseInt(ss[4].trim());
 			if(localStart < start) start = localStart;
 			if(localEnd > end) end = localEnd;
 		}
@@ -59,7 +58,7 @@ public final class AppController {
 		String [][] data = new String[rasterNumRows][rasterNumCols];
 		
 		//header line
-		List<String> header = new ArrayList<String>();
+		List<String> header = new ArrayList<>();
 		data[0][0] = "";
 		header.add(data[0][0]);
 		for (int j=1; j< rasterNumCols; j++) {
@@ -68,14 +67,14 @@ public final class AppController {
 			header.add(s);
 		}
 		
-		List<String> zeroColumn = new ArrayList<String>();
+		List<String> zeroColumn = new ArrayList<>();
 		int currentRow = 1;
 		for (String[] ss: inputData) {
 			zeroColumn.add(ss[0]);
 			data[currentRow][0] = ss[0];
-			int localMama = Integer.valueOf(ss[2].trim());
-			int localStart = Integer.valueOf(ss[3].trim());
-			int localEnd = Integer.valueOf(ss[4].trim());
+			int localMama = Integer.parseInt(ss[2].trim());
+			int localStart = Integer.parseInt(ss[3].trim());
+			int localEnd = Integer.parseInt(ss[4].trim());
 			for(int j = localStart; j<localEnd+1; j++) {
 				if(localMama==0)
 					data[currentRow][j] = "**";
@@ -87,6 +86,38 @@ public final class AppController {
 		
 		return new SimpleRasterModel(header, zeroColumn, data);
 	}//end translate()
-		
+
+    public SimpleTableModel getTaskList() {
+        return mainEngine.getTaskList();
+    }
+
+    public void deleteTask(int selectedId) {
+		mainEngine.deleteTask(selectedId);
+    }
+
+    public void updateTask(int selectedId, int choice, String newValue) {
+		mainEngine.updateTask(selectedId, choice, newValue);
+    }
+
+    public void addTask(String taskText, int mamaId, String startDateString, String endDateString, double cost) {
+		mainEngine.addTask(taskText, mamaId, startDateString, endDateString, cost);
+    }
+
+    public void addTask(String taskText, int mamaId, String startDateString, String endDateString, double cost,
+            int taskId) {
+		mainEngine.addTask(taskText, mamaId, startDateString, endDateString, cost, taskId);
+    }
+
+    public String[] getTaskData(int mamaId) {
+		return mainEngine.getTaskData(mamaId);
+    }
+
+    public void updateMamaTask(int mamaId, String mamaStartDateString, String mamaEndDateString, Double mamaCost) {
+		mainEngine.updateMamaTask(mamaId, mamaStartDateString, mamaEndDateString, mamaCost);
+    }
+
+    public void deleteSubTasks(int selectedId) {
+		mainEngine.deleteSubTasks(selectedId);
+    }
 	
 }//end class

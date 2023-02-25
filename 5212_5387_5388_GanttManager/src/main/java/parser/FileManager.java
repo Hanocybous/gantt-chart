@@ -69,7 +69,6 @@ public class FileManager {
 	    				  taskData.get(1),
 	    				  Integer.parseInt(taskData.get(2)));
 	    		  returnTaskList.add(tempTask);
-				  System.out.println(tempTask);
 	    	  }
 	      }
 	      myReader.close();

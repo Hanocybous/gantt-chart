@@ -3,21 +3,22 @@ package happyday;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
-import domainClasses.Task;
-import fileManager.FileManager;
+import domainclasses.Task;
+import parser.FileManager;
 
 public class TestTaskManager {
     
-    private final String FILEPATH = "src/test/resources/input/Eggs.tsv";
-    private final String DELIMITER = "\t";
+    private static final String FILEPATH = "src/test/resources/input/Eggs.tsv";
+    private static final String DELIMITER = "\t";
 
     @Test
     public void testReadFile() {
         FileManager fm = new FileManager(FILEPATH, DELIMITER);
-        ArrayList<Task> tasks = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         tasks = fm.giveTasks();
         assertEquals("Prepare Fry", tasks.get(0).getName());
         assertEquals("Turn on burner (low)", tasks.get(1).getName());

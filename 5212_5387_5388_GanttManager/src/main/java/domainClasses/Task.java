@@ -53,11 +53,11 @@ public abstract class Task{
 		return complexTaskCheck;
 	}
 	
-	protected void setStart(int start) {
+	public void setStart(int start) {
 		this.start = start;
 	}
 	
-	protected void setEnd(int end) {
+	public void setEnd(int end) {
 		this.end = end;
 	}
 	
@@ -70,5 +70,21 @@ public abstract class Task{
 	public String[] stringTask() {
 		return new String[] {Integer.toString(id),name,Integer.toString(mamaId),Integer.toString(start),Integer.toString(end),Double.toString(cost)};
 	}
+
+    public void setTaskDescription(String newValue) {
+		this.name = newValue;
+    }
+
+    public void setMamaId(int parseInt) {
+		this.mamaId = parseInt;
+    }
+
+    public void setCost(Double mamaCost) {
+		this.cost = mamaCost;
+    }
+
+    public void setTaskId(int parseInt) {
+		this.id = parseInt;
+    }
 
 }

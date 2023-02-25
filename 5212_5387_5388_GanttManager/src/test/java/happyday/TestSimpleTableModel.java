@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import dom2app.SimpleTableModel;
+import domtoapp.SimpleTableModel;
 
 public class TestSimpleTableModel {
     

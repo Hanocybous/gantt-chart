@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import dom2app.SimpleTableModel;
+import domtoapp.SimpleTableModel;
 
 public class TestSimpleTableModel {
 
